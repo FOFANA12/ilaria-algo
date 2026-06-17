@@ -1,0 +1,20 @@
+# Dépendances et build
+node_modules/
+dist/
+
+# Logs et temporaires
+*.log
+tmp_*
+*.tmp
+
+# Système
+.DS_Store
+Thumbs.db
+
+# Traces d'outils / éditeurs (jamais publier)
+.vscode/
+.idea/
+
+# Secrets et environnement
+.env
+.env.*

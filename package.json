@@ -1,0 +1,24 @@
+{
+  "name": "ilaria-algo",
+  "version": "0.1.0",
+  "description": "ilaria-algo — éditeur de pseudo-code algorithmique (ilaria Digital School)",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@codemirror/autocomplete": "^6.18.4",
+    "@codemirror/commands": "^6.7.1",
+    "@codemirror/language": "^6.10.8",
+    "@codemirror/lint": "^6.8.4",
+    "@codemirror/state": "^6.5.1",
+    "@codemirror/view": "^6.36.2",
+    "@lezer/highlight": "^1.2.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7"
+  }
+}
