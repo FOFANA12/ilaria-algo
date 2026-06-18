@@ -18,3 +18,7 @@ Thumbs.db
 # Secrets et environnement
 .env
 .env.*
+
+# Travaux pratiques (corrigés) — non publiés
+TP/
+TP2/

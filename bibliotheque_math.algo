@@ -1,0 +1,152 @@
+// ============================================================
+//  BIBLIOTHEQUE MATH - ilaria Algo
+//  Recopiez les fonctions dont vous avez besoin dans votre
+//  algorithme (avant la ligne "Algorithme ..."), puis
+//  appelez-les comme : y <- RacineCarree(2)
+//
+//  Rappel : il n'existe pas de fonction integree (sqrt, abs...),
+//  d'ou cette bibliotheque ecrite entierement en pseudo-code.
+//  N'oubliez pas : division entiere = DIV, modulo = MOD.
+// ============================================================
+
+
+// Valeur absolue de x : |x|
+Fonction ValeurAbsolue(x : Reel) : Reel
+    Si x < 0 Alors
+        Retourner -x
+    FinSi
+    Retourner x
+FinFonction
+
+
+// Racine carree de x (methode de Heron). Retourne 0 si x <= 0.
+Fonction RacineCarree(x : Reel) : Reel
+    r : Reel
+    i : Entier
+    Si x <= 0 Alors
+        Retourner 0
+    FinSi
+    r <- x
+    Pour i <- 1 à 50 Faire
+        r <- (r + x / r) / 2
+    FinPour
+    Retourner r
+FinFonction
+
+
+// base eleve a la puissance exposant (exposant entier, +/-).
+Fonction Puissance(base : Reel, exposant : Entier) : Reel
+    resultat : Reel
+    i, e : Entier
+    resultat <- 1
+    e <- exposant
+    Si e < 0 Alors
+        e <- -e
+    FinSi
+    Pour i <- 1 à e Faire
+        resultat <- resultat * base
+    FinPour
+    Si exposant < 0 Alors
+        Retourner 1 / resultat
+    FinSi
+    Retourner resultat
+FinFonction
+
+
+// Le plus petit des deux nombres.
+Fonction Min(a : Reel, b : Reel) : Reel
+    Si a < b Alors
+        Retourner a
+    FinSi
+    Retourner b
+FinFonction
+
+
+// Le plus grand des deux nombres.
+Fonction Max(a : Reel, b : Reel) : Reel
+    Si a > b Alors
+        Retourner a
+    FinSi
+    Retourner b
+FinFonction
+
+
+// Partie entiere (plancher) : plus grand entier <= x.
+Fonction PartieEntiere(x : Reel) : Entier
+    e : Entier
+    e <- x
+    Si e > x Alors
+        e <- e - 1
+    FinSi
+    Retourner e
+FinFonction
+
+
+// Arrondi a l'entier le plus proche.
+Fonction Arrondi(x : Reel) : Entier
+    Si x >= 0 Alors
+        Retourner PartieEntiere(x + 0.5)
+    FinSi
+    Retourner -PartieEntiere(-x + 0.5)
+FinFonction
+
+
+// Vrai si n est pair.
+Fonction EstPair(n : Entier) : Booleen
+    Retourner n MOD 2 = 0
+FinFonction
+
+
+// Vrai si n est un nombre premier.
+Fonction EstPremier(n : Entier) : Booleen
+    i : Entier
+    Si n < 2 Alors
+        Retourner faux
+    FinSi
+    i <- 2
+    Tant que i * i <= n Faire
+        Si n MOD i = 0 Alors
+            Retourner faux
+        FinSi
+        i <- i + 1
+    FinTantQue
+    Retourner vrai
+FinFonction
+
+
+// Factorielle de n : n! = 1 * 2 * ... * n  (et 0! = 1).
+Fonction Factorielle(n : Entier) : Entier
+    f, i : Entier
+    f <- 1
+    Pour i <- 2 à n Faire
+        f <- f * i
+    FinPour
+    Retourner f
+FinFonction
+
+
+// Plus Grand Commun Diviseur (algorithme d'Euclide).
+Fonction PGCD(a : Entier, b : Entier) : Entier
+    temp : Entier
+    Si a < 0 Alors
+        a <- -a
+    FinSi
+    Si b < 0 Alors
+        b <- -b
+    FinSi
+    Tant que b != 0 Faire
+        temp <- b
+        b <- a MOD b
+        a <- temp
+    FinTantQue
+    Retourner a
+FinFonction
+
+
+// Plus Petit Commun Multiple.
+Fonction PPCM(a : Entier, b : Entier) : Entier
+    Si a = 0 OU b = 0 Alors
+        Retourner 0
+    FinSi
+    Retourner ValeurAbsolue(a * b) / PGCD(a, b)
+FinFonction

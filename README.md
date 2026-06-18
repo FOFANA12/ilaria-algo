@@ -92,7 +92,7 @@ La convention recommandée écrit les mots-clés **sans caractères spéciaux**
 | Tableaux | `Tableau nom[n] : type`, `nom[i]`, `grille[i][j]` |
 | Types | `Entier`, `Reel`, `Chaine`, `Caractere`, `Booleen` |
 | Littéraux | `vrai`, `faux`, `"texte"`, nombres |
-| Opérateurs | `+ - * / // %`, `= != < > <= >=`, `ET OU NON`, `<-` |
+| Opérateurs | `+ - * /`, `MOD` (≡ `%`), `DIV` (≡ `//`), `= != < > <= >=`, `ET OU NON`, `<-` |
 | Commentaires | `// …`, `/* … */` |
 
 > Astuce : l'affectation s'écrit `←` (comme dans le cours) **ou** `<-` (plus
@@ -101,6 +101,20 @@ La convention recommandée écrit les mots-clés **sans caractères spéciaux**
 > Constantes : une variable dont le nom est **entièrement en MAJUSCULES**
 > (ex. `TVA : Reel ← 0.2`) est verrouillée : toute modification ultérieure est
 > refusée.
+>
+> Division entière et modulo : on enseigne les mots **`DIV`** et **`MOD`**
+> (ex. `17 DIV 5` → `3`, `17 MOD 5` → `2`). Les symboles `//` et `%` existent,
+> mais attention : `//` démarre un **commentaire**, donc pour la division
+> entière préférez toujours `DIV`.
+
+## Bibliothèque math
+
+Le langage ne fournit aucune fonction mathématique intégrée. Une petite
+bibliothèque réutilisable (racine carrée, puissance, PGCD, factorielle…) ainsi
+que les patrons « somme / moyenne sur un `Tableau` » sont fournis et documentés :
+
+- **Mode d'emploi et référence :** [`BIBLIOTHEQUE_MATH.md`](BIBLIOTHEQUE_MATH.md)
+- **Fichier à copier :** [`bibliotheque_math.algo`](bibliotheque_math.algo)
 
 ## Accents et apostrophe
 

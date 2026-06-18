@@ -19,6 +19,7 @@ import {
   TokenType,
   TWO_WORD_STARTS,
   TYPES,
+  WORD_OPERATORS,
 } from "./tokens";
 import { AlgoError, makeError } from "./errors";
 
@@ -232,6 +233,11 @@ export function lex(source: string): LexResult {
         normalized = "à";
       } else if (KEYWORDS[norm]) {
         type = "keyword";
+      } else if (WORD_OPERATORS[norm]) {
+        // MOD / DIV : opérateurs-mots. On conserve le texte d'origine dans
+        // `value` (affichage) et on place le symbole équivalent dans `normalized`.
+        type = "operator";
+        normalized = WORD_OPERATORS[norm];
       } else if (TYPES[norm]) {
         type = "type";
       } else if (BOOLEANS.has(norm)) {

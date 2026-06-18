@@ -26,6 +26,11 @@ import { analyze } from "./core/analyze";
 import { parseProgram, ParseError } from "./core/astparser";
 import { Interpreter, RuntimeError } from "./core/interpreter";
 import { EXAMPLES } from "./examples";
+import { renderMarkdown } from "./ui/markdown";
+import readmeRaw from "../README.md?raw";
+import biblioRaw from "../BIBLIOTHEQUE_MATH.md?raw";
+import antisecheRaw from "../ANTISECHE.md?raw";
+import biblioAlgoRaw from "../bibliotheque_math.algo?raw";
 
 // ---------- Références DOM ----------
 const editorParent = document.getElementById("editor")!;
@@ -39,6 +44,9 @@ const btnAnalyse = document.getElementById("btn-analyse") as HTMLButtonElement;
 const btnRun = document.getElementById("btn-run") as HTMLButtonElement;
 const btnStop = document.getElementById("btn-stop") as HTMLButtonElement;
 const btnClear = document.getElementById("btn-clear") as HTMLButtonElement;
+const btnHelp = document.getElementById("btn-help") as HTMLButtonElement;
+const docModal = document.getElementById("doc-modal")!;
+const docContent = document.getElementById("doc-content")!;
 
 const NEW_TEMPLATE = `Algorithme MonAlgorithme
     Variables
@@ -271,13 +279,61 @@ function stop(): void {
   }
 }
 
+// ---------- Documentation (modale) ----------
+const DOCS: Record<string, string> = {
+  antiseche: renderMarkdown(antisecheRaw),
+  readme: renderMarkdown(readmeRaw),
+  biblio: renderMarkdown(biblioRaw),
+};
+
+function showDoc(which: string): void {
+  docContent.innerHTML = DOCS[which] ?? "";
+  docContent.scrollTop = 0;
+  for (const tab of document.querySelectorAll<HTMLElement>(".doc-tab")) {
+    tab.classList.toggle("is-active", tab.dataset.doc === which);
+  }
+}
+
+function openDocs(which = "antiseche"): void {
+  showDoc(which);
+  docModal.hidden = false;
+}
+
+function closeDocs(): void {
+  docModal.hidden = true;
+}
+
+// Fichiers téléchargeables depuis la documentation (liens .algo).
+const DOWNLOADS: Record<string, string> = {
+  "bibliotheque_math.algo": biblioAlgoRaw,
+};
+
+function downloadFile(name: string): void {
+  const content = DOWNLOADS[name];
+  if (content === undefined) return;
+  const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = name;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 // ---------- Liste d'exemples ----------
 const NEW_OPTION = "__new__";
+const LIB_OPTION = "__lib_math__";
 function fillExamples(): void {
   const blank = document.createElement("option");
   blank.value = NEW_OPTION;
   blank.textContent = "— Nouveau (vide) —";
   exampleSelect.appendChild(blank);
+
+  const lib = document.createElement("option");
+  lib.value = LIB_OPTION;
+  lib.textContent = "📚 Bibliothèque math (fonctions à copier)";
+  exampleSelect.appendChild(lib);
+
   for (const ex of EXAMPLES) {
     const opt = document.createElement("option");
     opt.value = ex.id;
@@ -299,6 +355,10 @@ exampleSelect.addEventListener("change", () => {
     loadDoc(NEW_TEMPLATE);
     return;
   }
+  if (exampleSelect.value === LIB_OPTION) {
+    loadDoc(biblioAlgoRaw);
+    return;
+  }
   const ex = EXAMPLES.find((e) => e.id === exampleSelect.value);
   if (ex) loadDoc(ex.code);
 });
@@ -312,6 +372,26 @@ btnAnalyse.addEventListener("click", analyse);
 btnRun.addEventListener("click", run);
 btnStop.addEventListener("click", stop);
 btnClear.addEventListener("click", clearConsole);
+
+btnHelp.addEventListener("click", () => openDocs("antiseche"));
+docModal.addEventListener("click", (e) => {
+  const target = e.target as HTMLElement;
+  const dl = target.closest<HTMLElement>("[data-download]");
+  if (dl?.dataset.download) {
+    e.preventDefault();
+    downloadFile(dl.dataset.download);
+    return;
+  }
+  if (target.closest("[data-close]")) {
+    closeDocs();
+    return;
+  }
+  const tab = target.closest<HTMLElement>(".doc-tab");
+  if (tab?.dataset.doc) showDoc(tab.dataset.doc);
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !docModal.hidden) closeDocs();
+});
 
 // ---------- Démarrage ----------
 fillExamples();

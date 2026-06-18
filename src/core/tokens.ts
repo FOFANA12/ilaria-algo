@@ -108,6 +108,19 @@ export const TWO_WORD_STARTS: Record<string, string[]> = {
   sinon: ["si"],
 };
 
+/**
+ * Opérateurs écrits sous forme de mots, tels qu'enseignés dans le cours.
+ * Clé = forme normalisée du mot, valeur = symbole canonique équivalent.
+ * « MOD » (modulo) ≡ « % » et « DIV » (division entière) ≡ « // ».
+ * Le lexer les émet comme des tokens « operator » dont le `value` conserve
+ * le texte d'origine (pour l'affichage) et le `normalized` porte le symbole,
+ * afin qu'ils héritent automatiquement de la priorité de Multiplication.
+ */
+export const WORD_OPERATORS: Record<string, string> = {
+  mod: "%",
+  div: "//",
+};
+
 /** Opérateurs symboliques, du plus long au plus court (ordre = priorité de match). */
 export const SYMBOL_OPERATORS = [
   "<=",

@@ -650,13 +650,16 @@ class Parser {
 
   private parseMul(): Expr {
     let left = this.parseUnary();
+    // On compare sur `normalized` : pour les symboles il vaut le symbole
+    // lui-même, et pour les opérateurs-mots « MOD » / « DIV » il vaut « % » /
+    // « // ». Les deux écritures partagent ainsi la priorité de Multiplication.
     while (
       this.at().type === "operator" &&
-      ["*", "/", "//", "%"].includes(this.at().value)
+      ["*", "/", "//", "%"].includes(this.at().normalized)
     ) {
       const op = this.next();
       const right = this.parseUnary();
-      left = { kind: "binary", op: op.value, left, right, pos: this.posOf(op) };
+      left = { kind: "binary", op: op.normalized, left, right, pos: this.posOf(op) };
     }
     return left;
   }

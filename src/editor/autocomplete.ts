@@ -71,6 +71,8 @@ const STATIC_WORDS: Completion[] = [
   { label: "ET", type: "keyword" },
   { label: "OU", type: "keyword" },
   { label: "NON", type: "keyword" },
+  { label: "MOD", type: "keyword", detail: "modulo (≡ %)" },
+  { label: "DIV", type: "keyword", detail: "division entière (≡ //)" },
 ];
 
 /** Récupère les noms de variables et de sous-programmes présents dans le code. */
